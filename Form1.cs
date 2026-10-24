@@ -35,7 +35,6 @@ namespace DotLineAndFace
             {
                 textBox1.Text = size.ToString();
             }
-            isMouseDown = true;
             if (hold_paint_event != Draw_Dot)
             {
                 start = new Point(e.X, e.Y);
@@ -132,16 +131,6 @@ namespace DotLineAndFace
         private void textBox1_Click(object sender, EventArgs e)
         {
             textBox1.Focus();
-
-            if (int.TryParse(textBox1.Text, out int result))
-            {
-                size = result;
-                A_Pen = new Pen(A_Pen.Color, size);
-            }
-            else
-            {
-                textBox1.Text = size.ToString();
-            }
         }
     }
 }
