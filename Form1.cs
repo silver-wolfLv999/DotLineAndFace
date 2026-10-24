@@ -25,16 +25,6 @@ namespace DotLineAndFace
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
             isMouseDown = true;
-            this.ActiveControl = null;
-            if (int.TryParse(textBox1.Text, out int result))
-            {
-                size = result;
-                A_Pen = new Pen(A_Pen.Color, size);
-            }
-            else
-            {
-                textBox1.Text = size.ToString();
-            }
             if (hold_paint_event != Draw_Dot)
             {
                 start = new Point(e.X, e.Y);
@@ -49,18 +39,12 @@ namespace DotLineAndFace
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (hold_paint_event == Draw_Line)
+            if (hold_paint_event != Draw_Dot)
             {
-                end = new Point(e.X, e.Y);
                 if (isMouseDown)
+                {   end = new Point(e.X, e.Y);
                     this.Invalidate();
-            }
-            if (hold_paint_event == Draw_Face)
-            {
-                end = new Point(e.X, e.Y);
-                if (isMouseDown)
-                    this.Invalidate();
-            
+                }
             }
         }
 
@@ -107,7 +91,7 @@ namespace DotLineAndFace
             int x = start.X < end.X ? start.X : end.X;
             int y = start.Y < end.Y ? start.Y : end.Y;
             int height = Math.Abs(start.Y - end.Y);
-            int width = Math.Abs(start.X - end.X);       
+            int width = Math.Abs(start.X - end.X);
             e.Graphics.FillEllipse(A_Brush, x, y, width, height);
             if (isMouseDown)
             {
@@ -125,12 +109,29 @@ namespace DotLineAndFace
             button1.BackColor = colorDialog1.Color;
             A_Brush = new SolidBrush(button1.BackColor);
             A_Pen = new Pen(button1.BackColor, size);
-            
+            this.Invalidate();
         }
 
         private void textBox1_Click(object sender, EventArgs e)
         {
             textBox1.Focus();
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.ActiveControl = null;
+                if (int.TryParse(textBox1.Text, out size))
+                {
+                    A_Pen = new Pen(A_Brush, size);
+                }
+                else
+                {
+                    textBox1.Text = size.ToString();
+                }
+                this.Invalidate();
+            }
         }
     }
 }

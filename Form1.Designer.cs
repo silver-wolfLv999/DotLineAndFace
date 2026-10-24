@@ -91,6 +91,7 @@
             textBox1.TabIndex = 4;
             textBox1.Text = "20";
             textBox1.Click += textBox1_Click;
+            textBox1.KeyDown += textBox1_KeyDown;
             // 
             // label1
             // 
